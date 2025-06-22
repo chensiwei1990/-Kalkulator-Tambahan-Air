@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>损纸加水量计算器 / Kalkulator Tambahan Air</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 40px; }
+  label { display: block; margin-top: 15px; font-weight: bold; }
+  input[type=number] { width: 140px; padding: 5px; }
+  #result { margin-top: 20px; font-size: 1.2em; color: #004488; }
+  .tip { font-size: 0.85em; color: #666; }
+  .lang { font-size: 0.9em; color: #999; font-weight: normal; }
+</style>
+<script>
+function calc() {
+  const waste = parseFloat(document.getElementById('waste').value) || 0;
+  const moisture = parseFloat(document.getElementById('moisture').value) || 0;
+  const conc = parseFloat(document.getElementById('conc').value) || 0;
+
+  if (conc === 0) {
+    document.getElementById('result').textContent = '⚠️ 配料浓度不能为 0 / Konsentrasi campuran tidak boleh 0';
+    return;
+  }
+
+  const waterAdd = (waste * (1 - moisture / 100)) / (conc / 100) - waste;
+
+  document.getElementById('result').textContent =
+    '需要加水量 Tambahan air yang dibutuhkan：' + waterAdd.toFixed(2) + ' kg';
+}
+</script>
+</head>
+<body>
+
+<h2>损纸加水量计算器<br/>Kalkulator Tambahan Air dari Kertas Rusak</h2>
+
+<label>
+  损纸重量 (kg) <span class="lang">/ Berat kertas rusak (kg)</span>
+  <input id="waste" type="number" step="0.01" placeholder="如 100 / contoh: 100">
+</label>
+
+<label>
+  水分 (%) <span class="lang">/ Kadar air (%)</span>
+  <input id="moisture" type="number" step="0.01" placeholder="如 8 / contoh: 8">
+</label>
+
+<label>
+  配料浓度 (%) <span class="lang">/ Konsentrasi campuran (%)</span>
+  <input id="conc" type="number" step="0.01" placeholder="如 12 / contoh: 12">
+</label>
+
+<button onclick="calc()">计算 / Hitung</button>
+
+<div id="result"></div>
+
+</body>
+</html>
